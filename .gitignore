@@ -1,0 +1,12 @@
+vendor/
+node_modules/
+uploads/
+config/connect.php
+*.log
+*.env
+.env*
+buyawanongv2.sql
+staff/error_log.txt
+staff/backup_index.php
+staff/*_old.php
+staff/_diag_activity.php

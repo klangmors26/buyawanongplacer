@@ -1,0 +1,12 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^7.1",
+        "guzzlehttp/guzzle": "^7.14",
+        "endroid/qr-code": "^6.1",
+        "setasign/fpdf": "^1.9",
+        "google/apiclient": "^2.19"
+    },
+    "config": {
+        "platform-check": false
+    }
+}

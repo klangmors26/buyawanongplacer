@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Server unavailable</title>
+<style>
+  body{font-family:Inter,system-ui,sans-serif;background:#f0f4f8;margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center;color:#1e293b}
+  .card{background:#fff;max-width:440px;margin:1rem;padding:2rem;border-radius:1.25rem;box-shadow:0 4px 24px rgba(15,23,42,.1);text-align:center}
+  h1{font-size:1.3rem;margin:.5rem 0}
+  p{color:#64748b;font-size:.92rem;line-height:1.5}
+  button{background:#1e4b2e;color:#fff;border:0;border-radius:2rem;padding:.7rem 1.6rem;font-weight:600;cursor:pointer}
+  .pill{display:inline-block;background:#fff3cd;color:#664d03;border-radius:2rem;padding:.25rem .8rem;font-size:.8rem;margin-top:.5rem}
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="font-size:2.5rem">📡</div>
+  <h1>We can’t reach the server right now</h1>
+  <p>Don’t worry — anything you already filled in on this device is kept and will be sent automatically once the connection is back.</p>
+  <div class="pill" id="pending" style="display:none"></div>
+  <p id="status">Checking connection…</p>
+  <button onclick="check()">Try again</button>
+</div>
+<script>
+function pendingCount(cb){
+  try{
+    const r=indexedDB.open('placer-offline',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('queue',{keyPath:'id',autoIncrement:true});
+    r.onsuccess=()=>{const q=r.result.transaction('queue').objectStore('queue').count();q.onsuccess=()=>cb(q.result);q.onerror=()=>cb(0);};
+    r.onerror=()=>cb(0);
+  }catch(e){cb(0);}
+}
+pendingCount(n=>{ if(n>0){const p=document.getElementById('pending');p.style.display='inline-block';p.textContent=n+' item(s) saved on this device, waiting to sync';}});
+async function check(){
+  document.getElementById('status').textContent='Checking connection…';
+  try{
+    const r=await fetch('ping.php?t='+Date.now(),{cache:'no-store'});
+    if(r.status===204||r.ok){ document.getElementById('status').textContent='Back online. Reloading…'; setTimeout(()=>location.reload(),400); return; }
+  }catch(e){}
+  document.getElementById('status').textContent='Still offline. We’ll keep checking.';
+}
+check(); setInterval(check,8000);
+</script>
+</body>
+</html>

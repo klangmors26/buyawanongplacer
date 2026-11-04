@@ -1,0 +1,46 @@
+# Local payment credentials
+/config/paymongo.local.php
+
+# Private uploads
+/uploads/
+
+# Error logs
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.tmp
+# Local database credentials
+/config/connect.php
+
+# Duplicate project folder
+/Placer/
+# Local database backup
+/buyawanongv2.sql
+
+# Project archive
+/Placer.zip
+
+# Payment API configuration
+/config/paymongo.php
+
+# Composer dependencies
+/vendor/
+
+# Exclude error logs and system files
+**/error_log.txt
+.DS_Store
+
+# Debug and old backup files
+staff/_diag_activity.php
+staff/backup_index.php
+staff/dashboard_bplo_old.php
+staff/dashboard_treasury_old.php
+pdf_check.php
+
+staff/treasury_record_old.php
+staff/update_appointment_status_old.php
